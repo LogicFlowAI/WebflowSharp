@@ -117,19 +117,20 @@ namespace WebflowSharp.Services
                     {
                         var rawResult = await response.Content.ReadAsStringAsync();
 
-                        //Check for and throw exception when necessary.
-                        CheckResponseExceptions(response, rawResult);
-
                         // This method may fail when the method was Delete, which is intendend.
                         // Delete methods should not be parsing the response JSON and should instead
                         // be using the non-generic ExecuteRequestAsync.
                         try
                         {
+                            //Check for and throw exception when necessary.
+                            CheckResponseExceptions(response, rawResult);
+
                             var result = JsonConvert.DeserializeObject<T>(rawResult);
                             return new RequestResult<T>(response, result, rawResult);
                         }
                         catch (Exception e)
                         {
+                            Console.WriteLine(JObject.Parse(rawResult).ToString());
                             Console.WriteLine(e);
                             throw;
                         }

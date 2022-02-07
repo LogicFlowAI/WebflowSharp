@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using WebflowSharp.Entities;
 using WebflowSharp.Extensions;
 using WebflowSharp.Infrastructure;
@@ -97,6 +98,44 @@ namespace WebflowSharp.Services.Collection
             }
 
             return await ExecuteRequestAsync<OrderModel>(req, HttpMethod.Put, content);
+        }
+
+        /// <summary>
+        /// An “create item” request" creates a new item.
+        /// </summary>
+        /// <param name="collectionId">Unique identifier for the Collection you are querying</param>
+        /// <param name="item"></param>
+        /// <returns>The <see cref="Item"/>.</returns>
+        public virtual async Task<CreateItem> CreateNewCollectionItem(
+            string collectionId,
+            CreateItem item)
+        {
+            var req = PrepareRequest($"collections/{collectionId}/items");
+            HttpContent content = null;
+
+            if (item != null)
+            {
+                var body = item.ToDictionary();
+                content = new JsonContent(body);
+            }
+
+            return await ExecuteRequestAsync<CreateItem>(req, HttpMethod.Post, content);
+        }
+
+        /// <summary>
+        /// An “update item” request" replaces the fields of an existent item 
+        /// with the fields specified in the payload.
+        /// </summary>
+        /// <param name="collectionId">Unique identifier for the Collection you are querying</param>
+        /// <param name="itemId">Unique identifier for the Item you are querying</param>
+        /// <param name="collectionItemQueryParameters"></param>
+        /// <returns>The <see cref="Order"/>.</returns>
+        public virtual async Task<JObject> RemoveCollectionItem(
+            string collectionId,
+            string itemId)
+        {
+            var req = PrepareRequest($"collections/{collectionId}/items/{itemId}");
+            return await ExecuteRequestAsync<JObject>(req, HttpMethod.Delete);
         }
     }
 }
