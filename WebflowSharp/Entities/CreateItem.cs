@@ -6,15 +6,18 @@ namespace WebflowSharp.Entities
     public class Field
     {
         public string Key { get; set; }
-        public object Value { get; set; }
+        public string Value { get; set; }
     }
 
     public class CreateItem
     {
+        [JsonProperty("_id")]
+        public string Id { get; set; }
+
         [JsonProperty("live")]
         public bool Live { get; set; }
 
         [JsonProperty("fields")]
-        public List<Field> Fields { get; } = new List<Field>();
+        public List<Field> Fields { get; set; } = new List<Field>();
     }
 }
