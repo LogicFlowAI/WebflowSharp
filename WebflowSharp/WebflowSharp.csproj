@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5</TargetFramework>
+    <TargetFramework>net6</TargetFramework>
     <AssemblyName>WebflowSharp</AssemblyName>
     <RootNamespace>WebflowSharp</RootNamespace>
     <Version>0.0.8</Version>
